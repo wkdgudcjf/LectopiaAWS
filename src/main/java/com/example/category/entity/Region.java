@@ -1,18 +1,21 @@
 package com.example.category.entity;
 
 import lombok.Data;
-import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
-@ToString
 public class Region {
 
     @Id
-    private String regionId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
 
-    private String regionName;
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "server_id")
+    private Server server;
 }

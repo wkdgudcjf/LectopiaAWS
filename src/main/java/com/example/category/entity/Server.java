@@ -1,39 +1,37 @@
 package com.example.category.entity;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
-@Getter @Setter
-@ToString
 public class Server {
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int serverId;
 
-    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
+
     private String mainUrl;
 
-    @Column
-    private long TotalMem;
+    private long totalMem;
 
-    @Column
     private long usedMem;
 
-    @Column
     private int state;
 
+    @OneToMany(mappedBy = "server")
     private List<Region> regionList;
+
+    @OneToMany(mappedBy = "server")
     private List<Service> serviceList;
+
+    @OneToMany(mappedBy = "server")
     private List<Url> urlList;
+
+    @OneToMany(mappedBy = "server")
+    private List<User> userList;
+
 }
