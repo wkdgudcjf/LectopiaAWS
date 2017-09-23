@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+  </head>
+
+  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <div class="content-wrapper">
+      <div class="container-fluid">
+		<include page="navi.html" flush="false"/>
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <h4>트래픽 관리</h4>
+          </li>
+          <li class="breadcrumb-item active">Management Traffic</li>
+        </ol>
+
+        <!-- 추가 -->
+        <div class="row">
+          <div class="col-xl-3 col-sm-4 mb-3">
+			   <Button type="button" class="btn btn-success" data-toggle="modal" data-target="#registCompanyModal">회사 등록</Button>
+          </div>
+        </div>
+
+        <!-- Tables -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fa fa-table"></i>
+            Traffic List
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>URL</th>
+                    <th>지역</th>
+                    <th>시간</th>
+                    <th>사용량</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>URL</th>
+                    <th>Region</th>
+                    <th>Date</th>
+                    <th>Memory</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="item : ${trafficList}">
+			        <td>${item.server.mainUrl}</td>
+			        <td>${item.region}</td>
+                    <td>${item.date}</td>
+                    <td>${item.mem}</td>
+			    </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="tableTime" class="card-footer small text-muted">
+            Updated yesterday at 11:59 PM
+          </div>
+        </div>
+        
+      </div>
+      <!-- /.container-fluid -->
+
+    <!-- /.content-wrapper -->
+	<include page="footer.html" flush="false"/>
+    </div>
+    
+     <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/sb-admin.min.js"></script>
+    
+    <!-- Custom scripts for this template -->
+	<script type="text/javascript">
+		 $(document).ready(function(){
+			 var d = new Date();
+			 $('#navi_traffic').attr('class',"nav-item active");
+			 $('#tableTime').text('Updated ' + d.getFullYear()+'/'+(d.getMonth() + 1)+'/'+d.getDate()+' '+d.getHours()
+					 +':'+d.getMinutes()+':'+d.getSeconds());
+		});
+    </script>
+  </body>
+
+</html>

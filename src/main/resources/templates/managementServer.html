@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+	
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+  </head>
+
+  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
+    <div class="content-wrapper">
+      <div class="container-fluid">
+		<include page="navi.html" flush="false"/>
+        <!-- Breadcrumbs -->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <h4>서버 관리</h4>
+          </li>
+          <li class="breadcrumb-item active">Management Server</li>
+        </ol>
+
+
+        <!-- 추가 -->
+        <div class="row">
+          <div class="col-xl-3 col-sm-4 mb-3">
+            <Button type="button" class="btn btn-success" data-toggle="modal" data-target="#registServerModal">서버 등록</Button>
+          </div>
+        </div>
+
+        <!-- Tables -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fa fa-table"></i>
+            Server List
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>활성여부</th>
+                    <th>MAIN URL</th>
+                    <th>할당메모리</th>
+                    <th>사용메모리</th>
+                    <th>상태</th>
+                    <th>동작 서비스</th>
+                    <th>사용 지역</th>
+                    <th>사용 URL</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Enable</th>
+                    <th>MAIN URL</th>
+                    <th>Alloc Memory</th>
+                    <th>Used Memory</th>
+                    <th>state</th>
+                    <th>Running Service</th>
+                    <th>Used Region</th>
+                    <th>Used URL</th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="item : ${serverList}">
+                    <td th:if="${item.state} == true">
+                    <img src="/img/enable.png" style="max-width: 30px; max-height: 30px;">
+                    </td>
+                    <td th:unless="${item.state} == false">
+                      <img src="/img/disable.png" style="max-width: 35px; max-height: 35px;">
+                    </td>
+			        <td>${item.mainUrl}</td>
+			        <td>${item.totalMem}</td>
+                    <td>${item.usedMem}</td>
+                    <td>${item.state}</td>
+                    <td>${item.regionList}</td>
+                    <td>${item.serviceList}</td>
+                    <td>${item.urlList}</td>
+			    </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="tableTime" class="card-footer small text-muted">
+            Updated yesterday at 11:59 PM
+          </div>
+        </div>
+        
+      </div>
+      <!-- /.container-fluid -->
+
+    <!-- /.content-wrapper -->
+	<include page="footer.html" flush="false"/>
+    </div>
+    <!-- RegistApp Modal -->
+    <div class="modal fade" id="registServerModal" tabindex="-1" role="dialog" aria-labelledby="registServerModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registServerModalLabel">Regist Server</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="registserverform">
+              <div class="form-group">
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <label for="inputMainURL">Main URL</label>
+                    <input type="text" name="serverMainUrl" class="form-control" id="inputMainURL" aria-describedby="nameHelp" placeholder="앱이름">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="inputMemory">할당메모리</label>
+                    <input type="text" name="serverMem" class="form-control" id="inputMemory" aria-describedby="nameHelp" placeholder="패키지명">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputURL">URL List</label>
+                <input type="text" name="serverUrl" class="form-control" id="inputURL" aria-describedby="nameHelp" placeholder="URL">
+              </div>
+              <div class="form-group">
+              <label for="inputService">서비스 선택</label>
+              <select th:each="item :${servieList}" id="inputService" name="serverService" class="input-large form-control">
+                <option value="${item.serviceID}">${item.serviceName}</option>
+              </select>
+            </div>
+              <div class="form-group">
+                <label for="inputRegion">지역 선택</label>
+                <select th:each="item :${regionList}" id="inputRegion" name="serverRegion" class="input-large form-control">
+                  <option value="${item.serviceID}">${item.serviceName}</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="#" onclick="registServer();">등록하기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/sb-admin.min.js"></script>
+    
+    <!-- Custom scripts for this template -->
+	<script type="text/javascript">
+	 $(document).ready(function(){
+		 var d = new Date();
+		 $('#navi_server').attr('class',"nav-item active");
+		 $('#tableTime').text('Updated ' + d.getFullYear()+'/'+(d.getMonth() + 1)+'/'+d.getDate()+' '+d.getHours()
+				 +':'+d.getMinutes()+':'+d.getSeconds());
+		});
+     function registServer(){
+         $.ajax({
+             url:"/registserver",
+             type: "POST",
+             data: new FormData($("#registserverform")[0]),
+             enctype: 'multipart/form-data',
+             processData: false,
+             contentType: false,
+             cache: false,
+             success: function () {
+                 location.reload();
+             },
+             error: function () {
+             }
+         });
+     }
+    </script>
+  </body>
+
+</html>
