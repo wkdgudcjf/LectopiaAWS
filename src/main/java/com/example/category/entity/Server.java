@@ -22,21 +22,18 @@ public class Server {
     private int serverId;
 
     @Column
-    private int userId;
+    private String mainUrl;
 
     @Column
-    private String urlMappings;
+    private long TotalMem;
 
     @Column
     private long usedMem;
 
     @Column
-    private String file;
-
-    @Column
-    private int fileSystem;
-    //0 텍스트 1이미지 등
-    @Column
     private int state;
-    //0 중지 1실행중 2아시아서버?? 등등..?
+
+//    private List regionList<Region>;
+//    private List serviceList<Service>;
+//    private List urlList<Url>;
 }

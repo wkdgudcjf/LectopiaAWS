@@ -26,15 +26,17 @@ public class User {
     @Column
     private String email;
 
-    @Column
-    private String url;
+    private Server server;
+
+    private boolean isAdmin;
 
     public User(){};
 
-    public User(String userId, String password, String email, String url) {
+    public User(String userId, String password, String email, Server server, boolean isAdmin) {
         this.userId = userId;
         this.password = password;
         this.email = email;
-        this.url = url;
+        this.server = server;
+        this.isAdmin = isAdmin;
     }
 }
