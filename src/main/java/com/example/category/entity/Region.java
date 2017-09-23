@@ -4,10 +4,11 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
-@ToString(exclude = "server")
+@ToString(exclude = "serverRegionList")
 public class Region {
 
     @Id
@@ -17,7 +18,6 @@ public class Region {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "server_id")
-    private Server server;
+    @OneToMany(mappedBy = "region")
+    private List<ServerRegion> serverRegionList;
 }

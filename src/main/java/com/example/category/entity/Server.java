@@ -15,6 +15,7 @@ public class Server {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
+
     @Column(unique = true)
     private String mainUrl;
 
@@ -25,7 +26,7 @@ public class Server {
     private int state;
 
     @OneToMany(mappedBy = "server")
-    private List<Region> regionList;
+    private List<ServerRegion> serverRegionList;
 
     @OneToMany(mappedBy = "server")
     private List<Service> serviceList;
