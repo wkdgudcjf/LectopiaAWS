@@ -1,4 +1,4 @@
-package com.example.category.repository.custom;
+package com.example.category.repository;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
         import org.springframework.data.repository.CrudRepository;
         import org.springframework.data.repository.query.Param;
 
-public interface UserRepository extends CrudRepository<User, String> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
-    List<User> findByUserId(String userId);
+    List<User> findById(String id);
     List<User> findByEmail(String email);
 }
