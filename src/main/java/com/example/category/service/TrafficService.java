@@ -17,41 +17,68 @@ import java.util.List;
 public class TrafficService {
     @Autowired
     TrafficRepository trafficRepository;
+
     public void saveTraffic(Traffic traffic){
         Date date = new Date();
         traffic.setDate(date);
         trafficRepository.save(traffic);
     }
-    public Iterable<Traffic> findDateToDate(Date d1, Date d2){
-
-        return null;
+    public Iterable<Traffic> getTrafficList(Date d1, Date d2, long serverId){
+        List<Traffic> all = getTrafficList(serverId);
+        ArrayList<Traffic> traffic = new ArrayList<Traffic>();
+        for(int i = 0; i < all.size(); ++i){
+            Traffic t = all.get(i);
+            if(t.getDate().after(d1) || t.getDate().before(d2)){
+                traffic.add(t);
+            }
+        }
+        return traffic;
     }
-    public Iterable<Traffic> findTimeToTime(Date d1, Date d2){
-        return null;
+    public List<Traffic> getTrafficList(Date d1, Date d2){
+        List<Traffic> all = getTrafficList();
+        ArrayList<Traffic> traffic = new ArrayList<Traffic>();
+        for(int i = 0; i < all.size(); ++i){
+            Traffic t = all.get(i);
+            if(t.getDate().after(d1) || t.getDate().before(d2)){
+                traffic.add(t);
+            }
+        }
+        return traffic;
     }
-
     public List<Traffic> getTrafficList(long serverId){
         List<Traffic> all = getTrafficList();
-        ArrayList<Traffic> idTraffic = new ArrayList<>();
-
+        ArrayList<Traffic> traffic = new ArrayList<>();
         for(int i = 0; i < all.size(); ++i){
             Traffic t = all.get(i);
             if(t.getServer().getId() == serverId)
-                idTraffic.add(t);
+                traffic.add(t);
         }
-        return idTraffic;
+        return traffic;
     }
+
     public List<Traffic> getTrafficList(){
         ArrayList<Traffic> arr = Lists.newArrayList(trafficRepository.findAll());
         return arr;
     }
-    public Iterable<Traffic> findByDate(Date date){
 
-        return null;
-    }
-    public Iterable<Traffic> findByResionId(long regionId){
-
-        return null;
+    public List<Traffic> getTrafficList(Date date){
+        List<Traffic> all = getTrafficList();
+        ArrayList<Traffic> traffic = new ArrayList<Traffic>();
+        return traffic;
     }
 
+    public List<Traffic> getTrafficList(long regionId, long serverId){
+        List<Traffic> all = getTrafficList(serverId);
+        ArrayList<Traffic> traffic = new ArrayList<Traffic>();
+        for(int i = 0; i < all.size(); ++i){
+            Traffic t = all.get(i);
+            if(t.getRegion().getId() == regionId)
+                traffic.add(t);
+        }
+        return traffic;
+    }
+
+    public void delete(){
+        trafficRepository.deleteAll();
+    }
 }
