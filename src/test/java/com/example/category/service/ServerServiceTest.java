@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("mysql")
@@ -20,15 +22,15 @@ public class ServerServiceTest {
     @Test
     public void 서버넣기() {
         Server server = new Server();
-        server.setMainUrl("what");
-        server.setTotalMem(77);
-        server.setUsedMem(7);
+        server.setMainUrl("uiyeon2");
+        server.setTotalMem(200);
+        server.setUsedMem(109);
         serverSerivce.saveServer(server);
     }
 
     @Test
     public void 서버하나id로찾기(){
-        Server one = serverSerivce.findById(4);
+        Server one = serverSerivce.findById(2);
         System.out.println(one);
     }
 
@@ -40,7 +42,7 @@ public class ServerServiceTest {
 
     @Test
     public void 서버리스트다가져오기() {
-        Iterable<Server> serverList = serverSerivce.getServerList();
+        List<Server> serverList = serverSerivce.getServerList();
 
         System.out.println(serverList);
     }
@@ -55,7 +57,7 @@ public class ServerServiceTest {
 
     @Test
     public void 서버리스트메모리크기범위로가져오기() {
-        Iterable<Server> serverList = serverSerivce.findByTotalMemBetween(50L,200L);
+        List<Server> serverList = serverSerivce.findByTotalMemBetween(50L,200L);
         System.out.println(serverList);
     }
 
