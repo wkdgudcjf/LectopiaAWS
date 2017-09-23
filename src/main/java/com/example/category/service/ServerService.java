@@ -1,10 +1,12 @@
 package com.example.category.service;
 
 import com.example.category.entity.Server;
+import com.example.category.repository.RegionRepository;
 import com.example.category.repository.ServerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -12,6 +14,9 @@ public class ServerService {
 
     @Autowired
     private ServerRepository serverRepository;
+
+    @Autowired
+    private RegionRepository regionRepository;
 
     //--------- 추가 methods
     /*public Iterable<Server> findByTotalMemLessThanEqual(long totalMem){
@@ -51,6 +56,8 @@ public class ServerService {
     public Server findById(long id){ return serverRepository.findOne(id); }
     public void deleteOne(long id){ serverRepository.delete(id); }
     public void deleteAll(){ serverRepository.deleteAll(); }
+
+    @Transactional
     public long  saveServer(Server server) {
         serverRepository.save(server);
         return server.getId();

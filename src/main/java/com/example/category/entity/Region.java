@@ -18,6 +18,6 @@ public class Region {
 
     private String name;
 
-    @OneToMany(mappedBy = "region")
-    private List<ServerRegion> serverRegionList;
+    @ManyToMany
+    private List<Server> serverList;
 }

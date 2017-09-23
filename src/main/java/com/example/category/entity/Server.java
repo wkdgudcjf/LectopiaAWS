@@ -25,8 +25,8 @@ public class Server {
 
     private int state;
 
-    @OneToMany(mappedBy = "server")
-    private List<ServerRegion> serverRegionList;
+    @ManyToMany
+    private List<Region> regionList;
 
     @OneToMany(mappedBy = "server")
     private List<Service> serviceList;
