@@ -30,6 +30,7 @@ public class CategoryApplication {
 	@Transactional
 	public InitializingBean localInitializingBean() {
 		return () -> {
+			//f
 //			Category category1 = new Category();
 //			category1.setName("category1");
 //			Category category2 = new Category();
