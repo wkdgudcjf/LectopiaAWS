@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css" rel="stylesheet"/>
+    <style type="text/css">
+        body {
+            background-color: white;
+        }
+
+        #loginbox {
+            margin-top: 30px;
+        }
+
+        #loginbox > div:first-child {
+            padding-bottom: 10px;
+        }
+
+        #form > div {
+            margin-bottom: 25px;
+        }
+
+        #form > div:last-child {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .panel {
+            background-color: transparent;
+        }
+
+        .panel-body {
+            padding-top: 30px;
+            background-color: rgba(2555,255,255,.3);
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">    
+        
+    <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3"> 
+        
+        <div class="row" style="height:230px; text-align:center">
+            <img src="/img/logo.jpg" style="display:inline-block; margin-top:70px"/>
+        </div>
+        
+        <div class="panel panel-default" >
+            <div class="panel-heading">
+                <div class="panel-title text-center"><a href="/web/join">회원가입</a></div>
+            </div>
+
+            <div class="panel-body" >
+
+                <form name="form" id="form" action="/login" class="form-horizontal" enctype="multipart/form-data" method="POST">
+                   
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="id" type="text" class="form-control" name="id" value="" placeholder="id"/>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="password" type="password" class="form-control" name="password" placeholder="Password"/>
+                    </div>                                                                  
+ 	
+                    <div class="form-group">
+                        <!-- Button -->
+                        <div class="col-sm-12 controls">
+                            <button type="submit" href="#" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-log-in"></i> Log in</button>                          
+                        </div>
+                    </div>
+                </form>
+            </div>                     
+        </div>  
+    </div>
+</div>
+</body>
+</html>
