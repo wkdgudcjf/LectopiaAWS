@@ -29,11 +29,9 @@ public class UserService {
         List<User> user= Lists.newArrayList(iteUser);
         return user;
     }
-    public List<User> getUserList(long id) {
+    public User getUser(long id) {
         User user = userRepository.findOne(id) ;
-        List<User> list = new ArrayList<User>();
-        list.add(user);
-        return list;
+        return user;
     }
 
     public User login(String email, String password) {

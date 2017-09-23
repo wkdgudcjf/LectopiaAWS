@@ -5,8 +5,11 @@ import com.example.category.entity.Server;
 import com.example.category.entity.Traffic;
 import com.example.category.entity.User;
 import com.example.category.service.ServerService;
+import com.example.category.service.TrafficService;
 import com.example.category.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +32,8 @@ public class WebController {
     UserService userService;
     @Autowired
     ServerService serverSerivce;
+    @Autowired
+    TrafficService trafficService;
 
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public String login(Model model) {
@@ -78,7 +83,9 @@ public class WebController {
         model.addAttribute("id",  sessionWire.getId());
         model.addAttribute("admin",  sessionWire.getAdmin());
         model.addAttribute("serviceList",  serverSerivce.getServerList());
-        model.addAttribute("regionList",  userService.getRegionList());
+        User user = userService.getUser(sessionWire.getId());
+        model.addAttribute("regionList", user.getServer().getRegionList());
+
         List<Server> list = null;
         if(sessionWire.getAdmin() == true) {
             list = serverSerivce.getServerList();
@@ -99,27 +106,29 @@ public class WebController {
         model.addAttribute("admin",  sessionWire.getAdmin());
         List<Traffic> list = null;
         if(sessionWire.getAdmin() == true) {
-            list = userService.getTrafficList();
+            list = trafficService.getTrafficList();
         }
         else{
-            list = userService.getTrafficList(sessionWire.getId());
+            list = trafficService.getTrafficList(userService.getUser(sessionWire.getId()).getServer().getId());
         }
         model.addAttribute("trafficList", list);
         return "managementTraffic";
     }
     @RequestMapping(value = "/managementUser", method = RequestMethod.GET)
-    public String managementTraffic(Model model) {
+    public String managementUser(Model model) {
         if(sessionWire.getId()==0) {
             return "redirect:/web/login";
         }
         model.addAttribute("id",  sessionWire.getId());
         model.addAttribute("admin",  sessionWire.getAdmin());
-        List<Server> list = null;
+        List<User> list = null;
         if(sessionWire.getAdmin() == true) {
-            list = serverSerivce.getServerList();
+            list = userService.getUserList();
         }
         else{
-            list = userService.getUserList(sessionWire.getId());
+            User user = userService.getUser(sessionWire.getId());
+            list = new ArrayList<User>();
+            list.add(user);
         }
         model.addAttribute("userList", list);
         //관리자일 경우 각 유저마다 가격넣어주기?
@@ -128,7 +137,7 @@ public class WebController {
     }
     @RequestMapping(value = "/registServer", method = RequestMethod.POST)
     public ResponseEntity<String> registServer(@RequestParam("serverMainUrl") String serverMainUrl,
-                                               @RequestParam("serverMem") String serverMem,@RequestParam("serverUrl") String serverUrl,
+                                               @RequestParam("serverMem") String serverMem, @RequestParam("serverUrl") String serverUrl,
                                                @RequestParam("serverService") String serverService,
                                                @RequestParam("serverRegion") String serverRegion)
     {
@@ -139,7 +148,7 @@ public class WebController {
 
 
         long id = serverSerivce.saveServer(server);
-        userService.update(id);
+        userService.updateUserServer(sessionWire.getId(),id);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
