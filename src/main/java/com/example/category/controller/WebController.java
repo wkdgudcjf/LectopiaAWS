@@ -12,11 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.category.entity.QRegion.region;
 
 /**
  * Created by ksb on 2017. 9. 23..
@@ -157,7 +154,21 @@ public class WebController {
         server.setTotalMem(Integer.parseInt(serverMem));
 
         ArrayList<Additional> slist = (ArrayList)additionalService.getAdditionalList();
+        ArrayList<Additional> addAlist = new ArrayList<Additional>();
+        for(Additional t1 : slist){
+            for(Integer t2 : serverServiceList ){
+                if(t1.getId() == t2) addAlist.add(t1);
+            }
+        }
         ArrayList<Region> rlist =  (ArrayList)regionService.getRegionList();
+        ArrayList<Region> addRlist = new ArrayList<Region>();
+        for(Region t1 : rlist){
+            for(Integer t2 : serverServiceList ){
+                if(t1.getId() == t2) addRlist.add(t1);
+            }
+        }
+        server.setRegionList(addRlist);
+        server.setAdditionalList(addAlist);
 
         long id = serverService.saveServer(server);
         userService.updateUserServer(sessionWire.getId(),id);
