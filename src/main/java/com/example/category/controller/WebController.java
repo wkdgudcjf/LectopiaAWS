@@ -65,7 +65,7 @@ public class WebController {
     @RequestMapping(value={"/join"}, method = RequestMethod.POST)
     public String joinPost(Model model, @RequestParam("password") String password,
                            @RequestParam("email") String email,@RequestParam("admin") boolean admin){
-        userService.saveUser(email,password,admin);
+        userSerivce.saveUser(email,password,admin);
         return "redirect:/web/login";
     }
     @RequestMapping(value = "/managementServer", method = RequestMethod.GET)
@@ -79,10 +79,10 @@ public class WebController {
         model.addAttribute("regionList",  userService.getRegionList());
         List<Server> list = null;
         if(sessionWire.getAdmin() == true) {
-            list = userService.getServerList();
+            list = userSerivce.getServerList();
         }
         else{
-            list = userService.getServerList(sessionWire.getId());
+            list = userSerivce.getServerList(sessionWire.getId());
         }
         model.addAttribute("serverList", list);
         return "managementServer";
@@ -124,8 +124,12 @@ public class WebController {
         return "managementUser";
     }
     @RequestMapping(value = "/registServer", method = RequestMethod.POST)
-    public ResponseEntity<String> registServer(@RequestParam("companyName") String companyName) {
-        userService.registCompany(companyName);
+    public ResponseEntity<String> registServer(@RequestParam("serverMainUrl") String serverMainUrl,
+                                               @RequestParam("serverMem") String serverMem,@RequestParam("serverUrl") String serverUrl,
+                                               @RequestParam("serverService") String serverService,
+                                               @RequestParam("serverRegion") String serverRegion)
+    {
+        userSerivce.registServer(serverMainUrl,serverMem,serverUrl,serverService,serverRegion);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
