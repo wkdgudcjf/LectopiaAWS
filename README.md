@@ -1,0 +1,2 @@
+# LectopiaAWS
+lectopia Mini AWS
