@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Entity
 @ToString(exclude = {"server"})
-public class Service {
+public class Additional {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
