@@ -129,10 +129,6 @@
                 </div>
               </div>
               <div class="form-group">
-                <label for="inputURL">URL List</label>
-                <input type="text" name="serverUrl" class="form-control" id="inputURL" aria-describedby="nameHelp" placeholder="URL"/>
-              </div>
-              <div class="form-group">
               <label for="inputService">서비스 선택</label>
               <select multiple id="inputService" name="serverService" class="input-large form-control">
                 <option th:each="item :${servieList}" value="${item.serviceID}">${item.serviceName}</option>

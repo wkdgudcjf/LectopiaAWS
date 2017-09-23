@@ -2,9 +2,7 @@ package com.example.category.controller;
 
 import com.example.category.config.SessionWire;
 import com.example.category.entity.*;
-import com.example.category.service.ServerService;
-import com.example.category.service.TrafficService;
-import com.example.category.service.UserService;
+import com.example.category.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +33,10 @@ public class WebController {
     ServerService serverService;
     @Autowired
     TrafficService trafficService;
-
+    @Autowired
+    RegionService regionService;
+    @Autowired
+    AdditionalService additionalService;
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public String login(Model model) {
         return "login";
@@ -83,8 +84,8 @@ public class WebController {
         }
         model.addAttribute("id",  sessionWire.getId());
         model.addAttribute("admin",  sessionWire.getAdmin());
-        model.addAttribute("serviceList",  serverService.getServiceList());
-        model.addAttribute("regionList", serverService.getRegionList());
+        model.addAttribute("serviceList", additionalService.getAdditionalList());
+        model.addAttribute("regionList", regionService.getRegionList());
         User user = userService.getUser(sessionWire.getId());
         List<Server> list = null;
         if(sessionWire.getAdmin() == true) {
@@ -155,10 +156,9 @@ public class WebController {
         server.setMainUrl(serverMainUrl);
         server.setTotalMem(Integer.parseInt(serverMem));
 
-        ArrayList<Service> slist = serverService.getServiceList();
-        ArrayList<Region> rlist =  serverService.getRegionList();
+        ArrayList<Additional> slist = (ArrayList)additionalService.getAdditionalList();
+        ArrayList<Region> rlist =  (ArrayList)regionService.getRegionList();
 
-        server.setServiceList(seList);
         long id = serverService.saveServer(server);
         userService.updateUserServer(sessionWire.getId(),id);
         return new ResponseEntity<>("success", HttpStatus.OK);
