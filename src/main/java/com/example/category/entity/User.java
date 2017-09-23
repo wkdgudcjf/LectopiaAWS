@@ -17,7 +17,7 @@ public class User {
     @Column(unique = true)
     private String email;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "server_id")
     private Server server;
 

@@ -33,7 +33,7 @@ public class Server {
     @OneToMany(mappedBy = "server")
     private List<Url> urlList;
 
-    @OneToMany(mappedBy = "server")
-    private List<User> userList;
+    @OneToOne(mappedBy = "server")
+    private User user;
 
 }
