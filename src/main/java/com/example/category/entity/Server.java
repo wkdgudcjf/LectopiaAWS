@@ -28,11 +28,8 @@ public class Server {
     @ManyToMany
     private List<Region> regionList;
 
-    @OneToMany(mappedBy = "server")
-    private List<Service> serviceList;
-
-    @OneToMany(mappedBy = "server")
-    private List<Url> urlList;
+    @ManyToMany
+    private List<Additional> additionalList;
 
     @OneToOne(mappedBy = "server")
     private User user;

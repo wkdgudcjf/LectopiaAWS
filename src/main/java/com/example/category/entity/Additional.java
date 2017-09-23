@@ -1,15 +1,16 @@
 package com.example.category.entity;
 
-
 import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
 @ToString(exclude = {"server"})
-public class Url {
+public class Additional {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -17,7 +18,6 @@ public class Url {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "server_id")
-    private Server server;
+    @ManyToMany
+    private List<Server> server;
 }
