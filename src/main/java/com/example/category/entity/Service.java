@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -17,7 +18,6 @@ public class Service {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "server_id")
-    private Server server;
+    @ManyToMany
+    private List<Server> server;
 }
