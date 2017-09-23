@@ -59,7 +59,16 @@ public class ServerService {
 
     @Transactional
     public long  saveServer(Server server) {
+        server.setState(1);
         serverRepository.save(server);
         return server.getId();
     }
+
+    @Transactional
+    public void updateUsedMem(long serverId, long addMem) {
+        Server server = serverRepository.findOne(serverId);
+        long sum = server.getUsedMem() + addMem;
+        server.setUsedMem(sum);
+    }
+
 }
