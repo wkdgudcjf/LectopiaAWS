@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" />
 
     <!-- Custom fonts for this template -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/font-awesome/css/font-awesome.min.css}" />
 
     <!-- Plugin CSS -->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet"/>
-
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/datatables/dataTables.bootstrap4.css}" />
     <!-- Custom styles for this template -->
-    <link href="css/sb-admin.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/sb-admin.css}" />
   </head>
 
   <body class="fixed-nav sticky-footer bg-dark" id="page-top">
     <div class="content-wrapper">
       <div class="container-fluid">
-		<include page="navi.html" flush="false"/>
+        <nav th:replace="navi :: navFragment"></nav>
         <!-- Breadcrumbs -->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
@@ -52,7 +51,7 @@
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>EMail</th>
+                    <th>Email</th>
                     <th>Password</th>
                     <th>Admin</th>
                     <th>Server</th>
@@ -60,11 +59,10 @@
                 </tfoot>
                 <tbody>
                 <tr th:each="item : ${userList}">
-                  <tr>
-				        <td>${item.email}</td>
-				        <td>${item.password}</td>
-				        <td>${item.admin}</td>
-				        <td>${item.server.mainUrl}</td>
+				        <td th:text="${item.email}"></td>
+				        <td th:text="${item.password}"></td>
+				        <td th:text="${item.admin}"></td>
+				        <td>test</td>
                 </tr>
                 </tbody>
               </table>
@@ -79,23 +77,24 @@
       <!-- /.container-fluid -->
 
     <!-- /.content-wrapper -->
-	<include page="footer.html" flush="false"/>
+      <footer th:replace="footer :: footerFragment"></footer>
     </div>
-    
-     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/popper/popper.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+    <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+    <script th:src="@{/vendor/datatables/jquery.dataTables.js}"></script>
+    <script th:src="@{/vendor/datatables/dataTables.bootstrap4.js}"></script>
 
     <!-- Custom scripts for this template -->
-    <script src="js/sb-admin.min.js"></script>
-    
+    <script th:src="@{/js/sb-admin.min.js}"></script>
+
+
     <!-- Custom scripts for this template -->
 	<script type="text/javascript">
 	 $(document).ready(function(){

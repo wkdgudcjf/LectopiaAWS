@@ -1,6 +1,7 @@
 package com.example.category.controller;
 
 import com.example.category.config.SessionWire;
+import com.example.category.entity.Region;
 import com.example.category.entity.Server;
 import com.example.category.entity.Traffic;
 import com.example.category.entity.User;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.category.entity.QRegion.region;
 
 /**
  * Created by ksb on 2017. 9. 23..
@@ -31,7 +35,7 @@ public class WebController {
     @Autowired
     UserService userService;
     @Autowired
-    ServerService serverSerivce;
+    ServerService serverService;
     @Autowired
     TrafficService trafficService;
 
@@ -59,7 +63,7 @@ public class WebController {
             sessionWire.setAdmin(false);
         }
         sessionWire.setId(user.getId());
-        return "redirect:/web/managementServer";
+        return "redirect:/web/managementUser";
     }
     @RequestMapping(value={"/logout"}, method = RequestMethod.GET)
     public String logout(Model model){
@@ -82,13 +86,13 @@ public class WebController {
         }
         model.addAttribute("id",  sessionWire.getId());
         model.addAttribute("admin",  sessionWire.getAdmin());
-        model.addAttribute("serviceList",  serverSerivce.getServerList());
+        model.addAttribute("serviceList",  serverService.getServerList());
         User user = userService.getUser(sessionWire.getId());
         model.addAttribute("regionList", user.getServer().getRegionList());
 
         List<Server> list = null;
         if(sessionWire.getAdmin() == true) {
-            list = serverSerivce.getServerList();
+            list = serverService.getServerList();
         }
         else{
             list = new ArrayList<Server>();
@@ -138,16 +142,20 @@ public class WebController {
     @RequestMapping(value = "/registServer", method = RequestMethod.POST)
     public ResponseEntity<String> registServer(@RequestParam("serverMainUrl") String serverMainUrl,
                                                @RequestParam("serverMem") String serverMem, @RequestParam("serverUrl") String serverUrl,
-                                               @RequestParam("serverService") String serverService,
-                                               @RequestParam("serverRegion") String serverRegion)
+                                               @RequestParam("serverService") List<String> serverServiceList,
+                                               @RequestParam("serverRegion") List<String> serverRegionList)
     {
 
         Server server = new Server();
         server.setMainUrl(serverMainUrl);
         server.setTotalMem(Integer.parseInt(serverMem));
 
-
-        long id = serverSerivce.saveServer(server);
+        //ArrayList<Region> regions = new ArrayList<Region>();
+        //for(int i=0;i<serverRegionList.size();i++)
+        //{
+            //regions.add(new Region().serverServiceList.get(i));
+        //}
+        long id = serverService.saveServer(server);
         userService.updateUserServer(sessionWire.getId(),id);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
