@@ -1,10 +1,7 @@
 package com.example.category.controller;
 
 import com.example.category.config.SessionWire;
-import com.example.category.entity.Region;
-import com.example.category.entity.Server;
-import com.example.category.entity.Traffic;
-import com.example.category.entity.User;
+import com.example.category.entity.*;
 import com.example.category.service.ServerService;
 import com.example.category.service.TrafficService;
 import com.example.category.service.UserService;
@@ -86,10 +83,9 @@ public class WebController {
         }
         model.addAttribute("id",  sessionWire.getId());
         model.addAttribute("admin",  sessionWire.getAdmin());
-        model.addAttribute("serviceList",  serverService.getServerList());
+        model.addAttribute("serviceList",  serverService.getServiceList());
+        model.addAttribute("regionList", serverService.getRegionList());
         User user = userService.getUser(sessionWire.getId());
-        model.addAttribute("regionList", user.getServer().getRegionList());
-
         List<Server> list = null;
         if(sessionWire.getAdmin() == true) {
             list = serverService.getServerList();
@@ -128,6 +124,15 @@ public class WebController {
         List<User> list = null;
         if(sessionWire.getAdmin() == true) {
             list = userService.getUserList();
+            for(int i=0;i<list.size();i++)
+            {
+                if(list.get(i).getServer()==null)
+                {
+                    Server temp = new Server();
+                    temp.setMainUrl("서버없음");
+                    list.get(i).setServer(temp);
+                }
+            }
         }
         else{
             User user = userService.getUser(sessionWire.getId());
@@ -142,19 +147,18 @@ public class WebController {
     @RequestMapping(value = "/registServer", method = RequestMethod.POST)
     public ResponseEntity<String> registServer(@RequestParam("serverMainUrl") String serverMainUrl,
                                                @RequestParam("serverMem") String serverMem, @RequestParam("serverUrl") String serverUrl,
-                                               @RequestParam("serverService") List<String> serverServiceList,
-                                               @RequestParam("serverRegion") List<String> serverRegionList)
+                                               @RequestParam("serverService") List<Integer> serverServiceList,
+                                               @RequestParam("serverRegion") List<Integer> serverRegionList)
     {
 
         Server server = new Server();
         server.setMainUrl(serverMainUrl);
         server.setTotalMem(Integer.parseInt(serverMem));
 
-        //ArrayList<Region> regions = new ArrayList<Region>();
-        //for(int i=0;i<serverRegionList.size();i++)
-        //{
-            //regions.add(new Region().serverServiceList.get(i));
-        //}
+        ArrayList<Service> slist = serverService.getServiceList();
+        ArrayList<Region> rlist =  serverService.getRegionList();
+
+        server.setServiceList(seList);
         long id = serverService.saveServer(server);
         userService.updateUserServer(sessionWire.getId(),id);
         return new ResponseEntity<>("success", HttpStatus.OK);
