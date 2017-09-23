@@ -1,12 +1,14 @@
 package com.example.category.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
+@ToString(exclude = {"regionList", "userList", "serviceList", "urlList"})
 public class Server {
 
     @Id

@@ -1,12 +1,14 @@
 package com.example.category.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Data
 @Entity
+@ToString(exclude = {"server","region"})
 public class Traffic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
