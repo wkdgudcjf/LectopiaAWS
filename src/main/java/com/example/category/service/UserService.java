@@ -59,7 +59,7 @@ public class UserService {
     public void updateUserServer(long userId, long serverId) {
         Server server = serverRepository.findOne(serverId);
         User user = userRepository.findOne(userId);
-        server.setUser(user);
+        //server.setUser(user);
         user.setServer(server);
     }
 

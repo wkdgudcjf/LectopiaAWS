@@ -30,8 +30,4 @@ public class Server {
 
     @ManyToMany
     private List<Additional> additionalList;
-
-    @OneToOne(mappedBy = "server")
-    private User user;
-
 }

@@ -144,9 +144,9 @@ public class WebController {
     }
     @RequestMapping(value = "/registServer", method = RequestMethod.POST)
     public ResponseEntity<String> registServer(@RequestParam("serverMainUrl") String serverMainUrl,
-                                               @RequestParam("serverMem") String serverMem, @RequestParam("serverUrl") String serverUrl,
-                                               @RequestParam("serverService") List<Integer> serverServiceList,
-                                               @RequestParam("serverRegion") List<Integer> serverRegionList)
+                                               @RequestParam("serverMem") String serverMem,
+                                               @RequestParam("serverService") List<String> serverServiceList,
+                                               @RequestParam("serverRegion") List<String> serverRegionList)
     {
 
         Server server = new Server();
@@ -155,16 +155,16 @@ public class WebController {
 
         ArrayList<Additional> slist = (ArrayList)additionalService.getAdditionalList();
         ArrayList<Additional> addAlist = new ArrayList<Additional>();
-        for(Additional t1 : slist){
-            for(Integer t2 : serverServiceList ){
-                if(t1.getId() == t2) addAlist.add(t1);
+        for(String t1 : serverServiceList){
+            for(Additional t2 : slist ){
+                if(Integer.parseInt(t1) == t2.getId()) addAlist.add(t2);
             }
         }
         ArrayList<Region> rlist =  (ArrayList)regionService.getRegionList();
         ArrayList<Region> addRlist = new ArrayList<Region>();
-        for(Region t1 : rlist){
-            for(Integer t2 : serverServiceList ){
-                if(t1.getId() == t2) addRlist.add(t1);
+        for(String t1 : serverRegionList){
+            for(Region t2 : rlist ){
+                if(Integer.parseInt(t1) == t2.getId()) addRlist.add(t2);
             }
         }
         server.setRegionList(addRlist);

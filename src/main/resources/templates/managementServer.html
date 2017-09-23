@@ -51,43 +51,35 @@
               <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>활성여부</th>
+                    <th>상태</th>
                     <th>MAIN URL</th>
                     <th>할당메모리</th>
                     <th>사용메모리</th>
-                    <th>상태</th>
-                    <th>동작 서비스</th>
                     <th>사용 지역</th>
-                    <th>사용 URL</th>
+                    <th>동작 서비스</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Enable</th>
+                    <th>state</th>
                     <th>MAIN URL</th>
                     <th>Alloc Memory</th>
                     <th>Used Memory</th>
-                    <th>state</th>
-                    <th>Running Service</th>
                     <th>Used Region</th>
-                    <th>Used URL</th>
+                    <th>Running Service</th>
                   </tr>
                 </tfoot>
                 <tbody>
                 <tr th:each="item : ${serverList}">
-                    <td th:if="${item.state} == true">
-                    <img src="/img/enable.png" style="max-width: 30px; max-height: 30px;/">
-                    </td>
-                    <td th:unless="${item.state} == false">
-                      <img src="/img/disable.png" style="max-width: 35px; max-height: 35px;"/>
-                    </td>
+                    <div th:switch="${item.state}">
+                      <td th:case="true"><img src="/img/enable.png" style="max-width: 30px; max-height: 30px;"/></td>
+                      <td th:case="false"><img src="/img/disable.png" style="max-width: 35px; max-height: 35px;"/></td>
+                    </div>
                     <td th:text="${item.mainUrl}"></td>
                     <td th:text="${item.totalMem}"></td>
                     <td th:text="${item.usedMem}"></td>
-                    <td th:text="${item.state}"></td>
                     <td th:text="${item.regionList}"></td>
-                    <td th:text="${item.serviceList}"></td>
-                    <td th:text="${item.urlList}"></td>
+                    <td th:text="${item.additionalList}"></td>
 			    </tr>
                 </tbody>
               </table>
@@ -120,24 +112,24 @@
                 <div class="form-row">
                   <div class="col-md-6">
                     <label for="inputMainURL">Main URL</label>
-                    <input type="text" name="serverMainUrl" class="form-control" id="inputMainURL" aria-describedby="nameHelp" placeholder="앱이름"/>
+                    <input type="text" name="serverMainUrl" class="form-control" id="inputMainURL" aria-describedby="nameHelp" placeholder="MainURL"/>
                   </div>
                   <div class="col-md-6">
                     <label for="inputMemory">할당메모리</label>
-                    <input type="text" name="serverMem" class="form-control" id="inputMemory" aria-describedby="nameHelp" placeholder="패키지명"/>
+                    <input type="text" name="serverMem" class="form-control" id="inputMemory" aria-describedby="nameHelp" placeholder="할당메모리"/>
                   </div>
                 </div>
               </div>
               <div class="form-group">
               <label for="inputService">서비스 선택</label>
-              <select multiple id="inputService" name="serverService" class="input-large form-control">
-                <option th:each="item :${servieList}" value="${item.serviceID}">${item.serviceName}</option>
+              <select multiple="multiple" id="inputService" name="serverService" class="input-large form-control">
+                <option th:each="item :${serviceList}" th:value="${item.id}" th:text="${item.name}"></option>
               </select>
             </div>
               <div class="form-group">
                 <label for="inputRegion">지역 선택</label>
-                <select multiple id="inputRegion" name="serverRegion" class="input-large form-control">
-                  <option th:each="item :${regionList}" value="${item.serviceID}">${item.serviceName}</option>
+                <select multiple="multiple" id="inputRegion" name="serverRegion" class="input-large form-control">
+                  <option th:each="item :${regionList}" th:value="${item.id}" th:text="${item.name}"></option>
                 </select>
               </div>
             </form>
@@ -175,7 +167,7 @@
 		});
      function registServer(){
          $.ajax({
-             url:"/registserver",
+             url:"/web/registServer",
              type: "POST",
              data: new FormData($("#registserverform")[0]),
              enctype: 'multipart/form-data',
