@@ -1,7 +1,6 @@
 package com.example.category.entity;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
 
@@ -16,7 +15,6 @@ public class User {
     private String password;
 
     @Column(unique = true)
-    @Email
     private String email;
 
     @ManyToOne

@@ -28,26 +28,27 @@ public class CategoryComponentService {
     }
 
     private CategoryComponentDto.Result getCategoryComponent(CategoryComponent categoryComponent) {
-        if(categoryComponent instanceof CategoryComposite) {
-            Class<CategoryComposite> type = CategoryComposite.class;
-            CategoryComposite categoryComposite = type.cast(categoryComponent);
-            CategoryCompositeDto.Result result = new CategoryCompositeDto.Result();
-            result.setName(categoryComposite.getName());
-            result.setId(categoryComposite.getId());
-            result.setChildren(categoryComposite.getChildren().stream()
-                    .map(childCategoryComponent -> getCategoryComponent(childCategoryComponent))
-                    .collect(toList()));
-            return result;
-        } else if(categoryComponent instanceof CategoryLeaf) {
-            Class<CategoryLeaf> type = CategoryLeaf.class;
-            CategoryLeaf categoryLeaf = type.cast(categoryComponent);
-            CategoryLeafDto.Result result = new CategoryLeafDto.Result();
-            result.setName(categoryLeaf.getName());
-            result.setId(categoryLeaf.getId());
-            return result;
-        } else {
-            return null;
-        }
+//        if(categoryComponent instanceof CategoryComposite) {
+//            Class<CategoryComposite> type = CategoryComposite.class;
+//            CategoryComposite categoryComposite = type.cast(categoryComponent);
+//            CategoryCompositeDto.Result result = new CategoryCompositeDto.Result();
+//            result.setName(categoryComposite.getName());
+//            result.setId(categoryComposite.getId());
+//            result.setChildren(categoryComposite.getChildren().stream()
+//                    .map(childCategoryComponent -> getCategoryComponent(childCategoryComponent))
+//                    .collect(toList()));
+//            return result;
+//        } else if(categoryComponent instanceof CategoryLeaf) {
+//            Class<CategoryLeaf> type = CategoryLeaf.class;
+//            CategoryLeaf categoryLeaf = type.cast(categoryComponent);
+//            CategoryLeafDto.Result result = new CategoryLeafDto.Result();
+//            result.setName(categoryLeaf.getName());
+//            result.setId(categoryLeaf.getId());
+//            return result;
+//        } else {
+//            return null;
+//        }
+        return null;
     }
 
 }

@@ -32,5 +32,6 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-thymeleaf")
 	compile("mysql:mysql-connector-java:5.1.38")
 	compileOnly('org.projectlombok:lombok')
+	testCompile('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

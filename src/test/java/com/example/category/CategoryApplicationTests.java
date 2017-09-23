@@ -75,21 +75,21 @@ public class CategoryApplicationTests {
 
 	@Test
 	public void 테스트5() {
-		Test1 test1 = new Test1();
-		Test2 test2 = new Test2();
-		test1.setTest2List(Arrays.asList(test2));
-		test2Repository.save(test2);
-		test1Repository.save(test1);
-
-		System.out.println("TEST");
+//		Test1 test1 = new Test1();
+//		Test2 test2 = new Test2();
+//		test1.setTest2List(Arrays.asList(test2));
+//		test2Repository.save(test2);
+//		test1Repository.save(test1);
+//
+//		System.out.println("TEST");
 	}
 
 	@Test
 	@Transactional
 	public void 테스트() {
-		Category category = new Category();
-		category.setName("category7");
-		categoryRepository.save(category);
+//		Category category = new Category();
+//		category.setName("category7");
+//		categoryRepository.save(category);
 	}
 
 }
