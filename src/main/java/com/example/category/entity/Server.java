@@ -33,7 +33,7 @@ public class Server {
     @Column
     private int state;
 
-//    private List regionList<Region>;
-//    private List serviceList<Service>;
-//    private List urlList<Url>;
+    private List<Region> regionList;
+    private List<Service> serviceList;
+    private List<Url> urlList;
 }
