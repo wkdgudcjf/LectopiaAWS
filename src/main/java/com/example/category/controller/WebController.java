@@ -4,16 +4,16 @@ import com.example.category.config.SessionWire;
 import com.example.category.entity.Server;
 import com.example.category.entity.Traffic;
 import com.example.category.entity.User;
-import com.example.category.service.UserSerivce;
+import com.example.category.service.ServerService;
+import com.example.category.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +26,9 @@ public class WebController {
     @Autowired
     SessionWire sessionWire;
     @Autowired
-    UserSerivce userSerivce;
+    UserService userService;
+    @Autowired
+    ServerService serverSerivce;
 
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public String login(Model model) {
@@ -43,7 +45,7 @@ public class WebController {
     @RequestMapping(value={"/login"}, method = RequestMethod.POST)
     public String loginPost(Model model, @RequestParam("email") String email, @RequestParam("password") String password)
     {
-        User user = userSerivce.login(email,password);
+        User user = userService.login(email,password);
         if(user.isAdmin()) {
             sessionWire.setAdmin(true);
         }
@@ -65,7 +67,7 @@ public class WebController {
     @RequestMapping(value={"/join"}, method = RequestMethod.POST)
     public String joinPost(Model model, @RequestParam("password") String password,
                            @RequestParam("email") String email,@RequestParam("admin") boolean admin){
-        userSerivce.saveUser(email,password,admin);
+        userService.saveUser(email,password,admin);
         return "redirect:/web/login";
     }
     @RequestMapping(value = "/managementServer", method = RequestMethod.GET)
@@ -75,14 +77,15 @@ public class WebController {
         }
         model.addAttribute("id",  sessionWire.getId());
         model.addAttribute("admin",  sessionWire.getAdmin());
-        model.addAttribute("serviceList",  userService.getServiceList());
+        model.addAttribute("serviceList",  serverSerivce.getServerList());
         model.addAttribute("regionList",  userService.getRegionList());
         List<Server> list = null;
         if(sessionWire.getAdmin() == true) {
-            list = userSerivce.getServerList();
+            list = serverSerivce.getServerList();
         }
         else{
-            list = userSerivce.getServerList(sessionWire.getId());
+            list = new ArrayList<Server>();
+            list.add(userService.getUser(sessionWire.getId()).getServer());
         }
         model.addAttribute("serverList", list);
         return "managementServer";
@@ -111,9 +114,9 @@ public class WebController {
         }
         model.addAttribute("id",  sessionWire.getId());
         model.addAttribute("admin",  sessionWire.getAdmin());
-        List<User> list = null;
+        List<Server> list = null;
         if(sessionWire.getAdmin() == true) {
-            list = userService.getUserList();
+            list = serverSerivce.getServerList();
         }
         else{
             list = userService.getUserList(sessionWire.getId());
@@ -129,7 +132,14 @@ public class WebController {
                                                @RequestParam("serverService") String serverService,
                                                @RequestParam("serverRegion") String serverRegion)
     {
-        userSerivce.registServer(serverMainUrl,serverMem,serverUrl,serverService,serverRegion);
+
+        Server server = new Server();
+        server.setMainUrl(serverMainUrl);
+        server.setTotalMem(Integer.parseInt(serverMem));
+
+
+        long id = serverSerivce.saveServer(server);
+        userService.update(id);
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
