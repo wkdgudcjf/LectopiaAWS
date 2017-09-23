@@ -92,6 +92,35 @@ public class WebController {
             list = new ArrayList<Server>();
             list.add(userService.getUser(sessionWire.getId()).getServer());
         }
+        for (Server server:list)
+        {
+            StringBuilder sb = new StringBuilder();
+            for(int i=0;i< server.getRegionList().size();i++)
+            {
+                if(i==server.getRegionList().size()-1)
+                {
+                    sb.append(server.getRegionList().get(i).getName());
+                }
+                else
+                {
+                    sb.append(server.getRegionList().get(i).getName()+" / ");
+                }
+            }
+            server.setRegionString(sb.toString());
+            StringBuilder sb2 = new StringBuilder();
+            for(int i=0;i< server.getAdditionalList().size();i++)
+            {
+                if(i==server.getAdditionalList().size()-1)
+                {
+                    sb2.append(server.getAdditionalList().get(i).getName());
+                }
+                else
+                {
+                    sb2.append(server.getAdditionalList().get(i).getName()+" / ");
+                }
+            }
+            server.setAdditionalString(sb2.toString());
+        }
         model.addAttribute("serverList", list);
         return "managementServer";
     }

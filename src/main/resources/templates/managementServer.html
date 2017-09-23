@@ -71,15 +71,13 @@
                 </tfoot>
                 <tbody>
                 <tr th:each="item : ${serverList}">
-                    <div th:switch="${item.state}">
-                      <td th:case="true"><img src="/img/enable.png" style="max-width: 30px; max-height: 30px;"/></td>
-                      <td th:case="false"><img src="/img/disable.png" style="max-width: 35px; max-height: 35px;"/></td>
-                    </div>
+                    <td th:if="${item.state} != 0"><img src="/img/enable.png" style="max-width: 30px; max-height: 30px;"/></td>
+                    <td th:unless="${item.state} != 0"><img src="/img/disable.png" style="max-width: 35px; max-height: 35px;"/></td>
                     <td th:text="${item.mainUrl}"></td>
                     <td th:text="${item.totalMem}"></td>
                     <td th:text="${item.usedMem}"></td>
-                    <td th:text="${item.regionList}"></td>
-                    <td th:text="${item.additionalList}"></td>
+                    <td th:text="${item.regionString}"></td>
+                    <td th:text="${item.additionalString}"></td>
 			    </tr>
                 </tbody>
               </table>

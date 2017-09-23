@@ -27,7 +27,8 @@ public class Server {
 
     @ManyToMany
     private List<Region> regionList;
-
+    private String regionString;
     @ManyToMany
     private List<Additional> additionalList;
+    private String additionalString;
 }
