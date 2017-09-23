@@ -15,7 +15,7 @@ public class Server {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
-
+    @Column(unique = true)
     private String mainUrl;
 
     private long totalMem;
